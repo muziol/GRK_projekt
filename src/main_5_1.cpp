@@ -12,9 +12,11 @@
 
 GLuint programColor;
 GLuint programTexture;
+GLuint programBackground;
 GLuint texture;
 GLuint textureEarth;
 GLuint textureSun;
+GLuint textureStars;
 
 
 Core::Shader_Loader shaderLoader;
@@ -96,6 +98,29 @@ void drawObjectTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint IDtextu
 	glUseProgram(0);
 }
 
+void drawBackgroundTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint IDtexture)
+{
+	GLuint program = programBackground;
+
+	glUseProgram(program);
+
+
+
+	//glUniform3f(glGetUniformLocation(program, "objectColor"), IDtexture.x, IDtexture.y, IDtexture.z);
+
+	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix;
+	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
+	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
+
+
+	Core::SetActiveTexture(IDtexture, "samp", program, 0);
+
+	Core::DrawModel(model);
+
+
+	glUseProgram(0);
+}
+
 void drawObjectProceduralTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint IDtexture) {
 	GLuint program = programTexture;
 
@@ -128,13 +153,14 @@ void renderScene()
 	perspectiveMatrix = Core::createPerspectiveMatrix();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 	// Macierz statku "przyczepia" go do kamery. Warto przeanalizowac te linijke i zrozumiec jak to dziala.
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0,-0.25f,0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
 	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(0.6f));
 
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(2,0,2)), texture);
+	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(50.0f)), textureStars);
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(-2,0,-2)), textureEarth);
 
 	glutSwapBuffers();
@@ -145,10 +171,12 @@ void init()
 	glEnable(GL_DEPTH_TEST);
 	programColor = shaderLoader.CreateProgram("shaders/shader_color.vert", "shaders/shader_color.frag");
 	programTexture = shaderLoader.CreateProgram("shaders/shader_tex.vert", "shaders/shader_tex.frag");
+	programBackground = shaderLoader.CreateProgram("shaders/shader_tex_background.vert", "shaders/shader_tex_background.frag");
 	sphereModel = obj::loadModelFromFile("models/sphere.obj");
 	shipModel = obj::loadModelFromFile("models/spaceship.obj");
 	texture = Core::LoadTexture("textures/earth2.png"); //grid, earth, earth2
 	textureEarth = Core::LoadTexture("textures/earth.png"); //earth
+	textureStars = Core::LoadTexture("textures/stars.png"); //earth
 
 }
 
