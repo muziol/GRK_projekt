@@ -40,7 +40,7 @@ glm::vec3 lightDir = glm::normalize(glm::vec3(1.0f, -0.9f, -1.0f));
 void keyboard(unsigned char key, int x, int y)
 {
 	float angleSpeed = 0.2f;
-	float moveSpeed = 0.2f;
+	float moveSpeed = 0.5f;
 	switch(key)
 	{
 	case 'z': cameraAngle -= angleSpeed; break;
@@ -146,6 +146,7 @@ void drawObjectProceduralTexture(obj::Model * model, glm::mat4 modelMatrix, GLui
 
 void renderScene()
 {
+	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
 	cameraMatrix = createCameraMatrix();
 	perspectiveMatrix = Core::createPerspectiveMatrix();
 
@@ -154,14 +155,26 @@ void renderScene()
 
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0,-0.25f,0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
 	
-	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(1.0f));
+	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(0.6f));
 
-	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(80.0f)), textureStars);
+	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
 
 	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(5.0f)), textureSun);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(20,0,0)) * glm::scale(glm::vec3(1.0f)), textureEarth);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(45, 0, 0)) * glm::scale(glm::vec3(2.15f)), textureJupiter);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(75, 0, 0)) * glm::scale(glm::vec3(1.3f)), textureNeptun);
+
+	glm::mat4 sphereMatrix = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1));
+	sphereMatrix = sphereMatrix * glm::translate(glm::vec3(15, 0, 0)) * glm::scale(glm::vec3(1.0f));
+
+	drawObjectTexture(&sphereModel, sphereMatrix, textureEarth);
+
+	glm::mat4 sphereMatrixJupiter = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1));
+	sphereMatrixJupiter = sphereMatrix * glm::translate(glm::vec3(35, 0, 0)) * glm::scale(glm::vec3(2.15f));
+
+	drawObjectTexture(&sphereModel, sphereMatrixJupiter, textureJupiter);
+
+	glm::mat4 sphereMatrixNeptun = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1));
+	sphereMatrixNeptun = sphereMatrix * glm::translate(glm::vec3(60, 0, 0)) * glm::scale(glm::vec3(1.3f));
+
+	drawObjectTexture(&sphereModel, sphereMatrixNeptun, textureNeptun);
 
 
 	glutSwapBuffers();
@@ -180,7 +193,7 @@ void init()
 	textureStars = Core::LoadTexture("textures/stars.png"); //stars
 	textureJupiter = Core::LoadTexture("textures/jupiter.png"); //jupiter
 	textureNeptun = Core::LoadTexture("textures/neptune.png"); //neptune
-	textureShip = Core::LoadTexture("textures/ship.png"); //ship
+	//textureShip = Core::LoadTexture("textures/ship.png"); //ship
 
 }
 
