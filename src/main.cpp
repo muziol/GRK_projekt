@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "Texture.h"
 
+
 GLuint programColor;
 GLuint programTexture;
 GLuint programBackground;
@@ -17,6 +18,10 @@ GLuint texture;
 GLuint textureEarth;
 GLuint textureSun;
 GLuint textureStars;
+GLuint textureJupiter;
+GLuint textureNeptun;
+GLuint textureShip;
+
 
 
 Core::Shader_Loader shaderLoader;
@@ -34,8 +39,8 @@ glm::vec3 lightDir = glm::normalize(glm::vec3(1.0f, -0.9f, -1.0f));
 
 void keyboard(unsigned char key, int x, int y)
 {
-	float angleSpeed = 0.1f;
-	float moveSpeed = 0.1f;
+	float angleSpeed = 0.2f;
+	float moveSpeed = 0.2f;
 	switch(key)
 	{
 	case 'z': cameraAngle -= angleSpeed; break;
@@ -148,11 +153,16 @@ void renderScene()
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0,-0.25f,0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
-	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(0.6f));
+	
+	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(1.0f));
 
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(2,0,2)), texture);
-	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(50.0f)), textureStars);
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(-2,0,-2)), textureEarth);
+	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(80.0f)), textureStars);
+
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(5.0f)), textureSun);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(20,0,0)) * glm::scale(glm::vec3(1.0f)), textureEarth);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(45, 0, 0)) * glm::scale(glm::vec3(2.15f)), textureJupiter);
+	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(75, 0, 0)) * glm::scale(glm::vec3(1.3f)), textureNeptun);
+
 
 	glutSwapBuffers();
 }
@@ -165,10 +175,12 @@ void init()
 	programBackground = shaderLoader.CreateProgram("shaders/shader_tex_background.vert", "shaders/shader_tex_background.frag");
 	sphereModel = obj::loadModelFromFile("models/sphere.obj");
 	shipModel = obj::loadModelFromFile("models/spaceship.obj");
-	texture = Core::LoadTexture("textures/earth2.png"); //grid, earth, earth2
+	textureSun = Core::LoadTexture("textures/sun.png"); //sun
 	textureEarth = Core::LoadTexture("textures/earth.png"); //earth
-	textureStars = Core::LoadTexture("textures/stars.png"); //earth
 	textureStars = Core::LoadTexture("textures/stars.png"); //stars
+	textureJupiter = Core::LoadTexture("textures/jupiter.png"); //jupiter
+	textureNeptun = Core::LoadTexture("textures/neptune.png"); //neptune
+	textureShip = Core::LoadTexture("textures/ship.png"); //ship
 
 }
 
