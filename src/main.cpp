@@ -157,22 +157,26 @@ void renderScene()
 	
 	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(0.6f));
 
+	//Gwiazdy
 	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
 
-	drawObjectTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(5.0f)), textureSun);
+	//Slonce
+	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(5.0f)), textureSun);
 
+	//Ziemia
 	glm::mat4 sphereMatrix = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1));
-	sphereMatrix = sphereMatrix * glm::translate(glm::vec3(15, 0, 0)) * glm::scale(glm::vec3(1.0f));
-
+	sphereMatrix = sphereMatrix * glm::translate(glm::vec3(15, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(1.0f));
 	drawObjectTexture(&sphereModel, sphereMatrix, textureEarth);
 
-	glm::mat4 sphereMatrixJupiter = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1));
-	sphereMatrixJupiter = sphereMatrix * glm::translate(glm::vec3(35, 0, 0)) * glm::scale(glm::vec3(2.15f));
+	//Jowisz
+	glm::mat4 sphereMatrixJupiter = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1));
+	sphereMatrixJupiter = sphereMatrixJupiter * glm::translate(glm::vec3(35, 0, 0)) * glm::rotate(glm::radians(75.0f * time), glm::vec3(0.0, 35.0, 0.0)) * glm::scale(glm::vec3(2.15f));
 
 	drawObjectTexture(&sphereModel, sphereMatrixJupiter, textureJupiter);
 
-	glm::mat4 sphereMatrixNeptun = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1));
-	sphereMatrixNeptun = sphereMatrix * glm::translate(glm::vec3(60, 0, 0)) * glm::scale(glm::vec3(1.3f));
+	//Neptun
+	glm::mat4 sphereMatrixNeptun = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(25.0f * time), glm::vec3(1, 12, -1));
+	sphereMatrixNeptun = sphereMatrixNeptun * glm::translate(glm::vec3(55, 0, 0)) * glm::rotate(glm::radians(55.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(1.3f));
 
 	drawObjectTexture(&sphereModel, sphereMatrixNeptun, textureNeptun);
 
