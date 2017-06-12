@@ -14,7 +14,7 @@
 GLuint programColor;
 GLuint programTexture;
 GLuint programBackground;
-GLuint texture;
+GLuint textureChicken;
 GLuint textureEarth;
 GLuint textureSun;
 GLuint textureStars;
@@ -28,6 +28,7 @@ Core::Shader_Loader shaderLoader;
 
 obj::Model shipModel;
 obj::Model sphereModel;
+obj::Model chicken;
 
 float cameraAngle = 0;
 glm::vec3 cameraPos = glm::vec3(-5, 0, 0);
@@ -157,7 +158,12 @@ void renderScene()
 	
 	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(0.6f));
 
+<<<<<<< HEAD
 	//Gwiazdy
+=======
+	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 100)) *glm::scale(glm::vec3(0.5f)), textureChicken);
+
+>>>>>>> a1f106886ae3364ff56381078c774025678898ac
 	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
 
 	//Slonce
@@ -192,12 +198,14 @@ void init()
 	programBackground = shaderLoader.CreateProgram("shaders/shader_tex_background.vert", "shaders/shader_tex_background.frag");
 	sphereModel = obj::loadModelFromFile("models/sphere.obj");
 	shipModel = obj::loadModelFromFile("models/spaceship.obj");
+	chicken = obj::loadModelFromFile("models/Chicken.obj");
 	textureSun = Core::LoadTexture("textures/sun.png"); //sun
 	textureEarth = Core::LoadTexture("textures/earth.png"); //earth
 	textureStars = Core::LoadTexture("textures/stars.png"); //stars
 	textureJupiter = Core::LoadTexture("textures/jupiter.png"); //jupiter
 	textureNeptun = Core::LoadTexture("textures/neptune.png"); //neptune
 	//textureShip = Core::LoadTexture("textures/ship.png"); //ship
+	textureChicken = Core::LoadTexture("textures/chicken.png");
 
 }
 
@@ -218,7 +226,7 @@ int main(int argc, char ** argv)
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(200, 200);
 	glutInitWindowSize(600, 600);
-	glutCreateWindow("Projekt GRP Nikodem Rafal");
+	glutCreateWindow("Projekt GRK Nikodema i Rafala");
 	glewInit();
 
 	init();
