@@ -31,7 +31,7 @@ obj::Model sphereModel;
 obj::Model chicken;
 
 float cameraAngle = 0;
-glm::vec3 cameraPos = glm::vec3(-5, 0, 0);
+glm::vec3 cameraPos = glm::vec3(20, 1, 0);
 glm::vec3 cameraDir;
 
 glm::mat4 cameraMatrix, perspectiveMatrix;
@@ -50,6 +50,8 @@ void keyboard(unsigned char key, int x, int y)
 	case 's': cameraPos -= cameraDir * moveSpeed; break;
 	case 'd': cameraPos += glm::cross(cameraDir, glm::vec3(0,1,0)) * moveSpeed; break;
 	case 'a': cameraPos -= glm::cross(cameraDir, glm::vec3(0,1,0)) * moveSpeed; break;
+	case 'q': cameraPos.y += moveSpeed; break;
+	case 'e': cameraPos.y -= moveSpeed; break;
 	}
 }
 
@@ -154,9 +156,9 @@ void renderScene()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 0.5f + glm::vec3(0,-0.25f,0)) * glm::rotate(-cameraAngle + glm::radians(90.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
+	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 2.0f + glm::vec3(0,-2.0f,0)) * glm::rotate(-cameraAngle + glm::radians(0.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
 	
-	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(0.6f));
+	drawObjectTexture(&shipModel, shipModelMatrix, textureShip);
 
 
 	//Kurczok
@@ -196,7 +198,7 @@ void init()
 	programTexture = shaderLoader.CreateProgram("shaders/shader_tex.vert", "shaders/shader_tex.frag");
 	programBackground = shaderLoader.CreateProgram("shaders/shader_tex_background.vert", "shaders/shader_tex_background.frag");
 	sphereModel = obj::loadModelFromFile("models/sphere.obj");
-	shipModel = obj::loadModelFromFile("models/spaceship.obj");
+	shipModel = obj::loadModelFromFile("models/spaceShip2.obj");
 	chicken = obj::loadModelFromFile("models/Chicken.obj");
 	textureSun = Core::LoadTexture("textures/sun.png"); //sun
 	textureEarth = Core::LoadTexture("textures/earth.png"); //earth
@@ -205,6 +207,7 @@ void init()
 	textureNeptun = Core::LoadTexture("textures/neptune.png"); //neptune
 	//textureShip = Core::LoadTexture("textures/ship.png"); //ship
 	textureChicken = Core::LoadTexture("textures/chicken.png");
+	textureShip = Core::LoadTexture("textures/spaceShip2.png");
 
 }
 
