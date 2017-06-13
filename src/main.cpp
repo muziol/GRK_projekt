@@ -22,6 +22,7 @@ GLuint textureJupiter;
 GLuint textureNeptun;
 GLuint textureShip;
 GLuint textureSunOpacity;
+GLuint textureEgg;
 
 
 Core::Shader_Loader shaderLoader;
@@ -30,6 +31,7 @@ obj::Model shipModel;
 obj::Model sphereModel;
 obj::Model chicken;
 obj::Model circle;
+obj::Model egg;
 
 float cameraAngle = 0;
 glm::vec3 cameraPos = glm::vec3(20, 1, 0);
@@ -168,9 +170,16 @@ void renderScene()
 
 
 	//Kurczok
+<<<<<<< HEAD
 	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)), textureChicken);
 
 
+=======
+	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0, 0, 200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)), textureChicken);\
+	//Moon's kurczak
+	drawObjectTexture(&egg, nikofunkcja(), textureChicken);
+	
+>>>>>>> 3d716031dcd6fb66620f0759f5a13234d567924e
 	//Gwiazdy
 	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
 
@@ -229,6 +238,7 @@ void init()
 	shipModel = obj::loadModelFromFile("models/spaceShip2.obj");
 	chicken = obj::loadModelFromFile("models/Chicken.obj");
 	circle = obj::loadModelFromFile("models/circle.obj");
+	egg = obj::loadModelFromFile("models/egg.obj");
 	textureSun = Core::LoadTexture("textures/sun.png"); //sun
 	textureEarth = Core::LoadTexture("textures/earth.png"); //earth
 	textureStars = Core::LoadTexture("textures/stars.png"); //stars
@@ -237,6 +247,7 @@ void init()
 	textureChicken = Core::LoadTexture("textures/chicken.png");
 	textureSunOpacity = Core::LoadTexture("textures/sunOpacity.png");
 	textureShip = Core::LoadTexture("textures/spaceShip2.png");
+	textureEgg = Core::LoadTexture("textures/egg.png");
 
 
 }
