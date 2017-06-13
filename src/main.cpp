@@ -29,6 +29,7 @@ Core::Shader_Loader shaderLoader;
 obj::Model shipModel;
 obj::Model sphereModel;
 obj::Model chicken;
+obj::Model circle;
 
 float cameraAngle = 0;
 glm::vec3 cameraPos = glm::vec3(20, 1, 0);
@@ -159,16 +160,7 @@ void renderScene()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-	glBegin(GL_LINE_LOOP);
-	// This should generate a circle
-	for (GLfloat i = 0; i < 360; i++)
-	{
-		float x = cos(i*3.14 / 180.f) * 0.5; // keep the axes radius same
-		float y = sin(i*3.14 / 180.f) * 0.5;
-		glVertex3f(x, y, 0.0f);
-	}
 
-	glEnd();
 
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 2.0f + glm::vec3(0,-2.0f,0)) * glm::rotate(-cameraAngle + glm::radians(0.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
 	
@@ -189,33 +181,35 @@ void renderScene()
 
 
 	//Ziemia
-	glm::mat4 sphereMatrix = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1));
-	sphereMatrix = sphereMatrix * glm::translate(glm::vec3(15, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(1.0f));
+	glm::mat4 sphereMatrix = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0));
+	sphereMatrix = sphereMatrix * glm::translate(glm::vec3(15, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, -1)) * glm::scale(glm::vec3(1.0f));
 	drawObjectTexture(&sphereModel, sphereMatrix, textureEarth);
 
 
+	drawObjectColor(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(1.0f, 0.02f, 1.0f)), glm::vec3(0.0f, 0.0f, 0.7f));
+
 	//Jowisz
-	glm::mat4 sphereMatrixJupiter = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1));
+	glm::mat4 sphereMatrixJupiter = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(0, 12, 0));
 	sphereMatrixJupiter = sphereMatrixJupiter * glm::translate(glm::vec3(35, 0, 0)) * glm::rotate(glm::radians(75.0f * time), glm::vec3(0.0, 35.0, 0.0)) * glm::scale(glm::vec3(2.15f));
 
 	drawObjectTexture(&sphereModel, sphereMatrixJupiter, textureJupiter);
 
 	//Neptun
-	glm::mat4 sphereMatrixNeptun = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(25.0f * time), glm::vec3(1, 12, -1));
+	glm::mat4 sphereMatrixNeptun = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(25.0f * time), glm::vec3(0, 12, 0));
 	sphereMatrixNeptun = sphereMatrixNeptun * glm::translate(glm::vec3(55, 0, 0)) * glm::rotate(glm::radians(55.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(1.3f));
 
 	drawObjectTexture(&sphereModel, sphereMatrixNeptun, textureNeptun);
 
 
 	//Slonce
-	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(5.0f)), textureSun);
+	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(0, 12, 0)) * glm::scale(glm::vec3(5.0f)), textureSun);
 	glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
 	float zmienna = 0.1f;
 	for (int i = 1; i < 10; i++) {
 
-		drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(5.0f + zmienna)), textureSunOpacity);
+		drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(0, 12, 0)) * glm::scale(glm::vec3(5.0f + zmienna)), textureSunOpacity);
 		zmienna += 0.1f;
 
 	}
@@ -234,6 +228,7 @@ void init()
 	sphereModel = obj::loadModelFromFile("models/sphere.obj");
 	shipModel = obj::loadModelFromFile("models/spaceShip2.obj");
 	chicken = obj::loadModelFromFile("models/Chicken.obj");
+	circle = obj::loadModelFromFile("models/circle.obj");
 	textureSun = Core::LoadTexture("textures/sun.png"); //sun
 	textureEarth = Core::LoadTexture("textures/earth.png"); //earth
 	textureStars = Core::LoadTexture("textures/stars.png"); //stars

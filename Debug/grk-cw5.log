@@ -1,12 +1,4 @@
 ﻿  main.cpp
-<<<<<<< HEAD
-p:\grk_projekt\src\main.cpp(164): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-p:\grk_projekt\src\main.cpp(165): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-=======
-p:\grk_projekt\src\main.cpp(156): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
-p:\grk_projekt\src\main.cpp(157): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
-p:\grk_projekt\src\main.cpp(158): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
->>>>>>> 36473e7b8f3df4fe8566828d6940fb3f42434fb8
 Camera.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
   grk-cw5.vcxproj -> P:\GRK_projekt\Debug\grk-cw5.exe
   grk-cw5.vcxproj -> P:\GRK_projekt\Debug\grk-cw5.pdb (Full PDB)
