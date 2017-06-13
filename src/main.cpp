@@ -36,7 +36,9 @@ glm::vec3 cameraDir;
 
 glm::mat4 cameraMatrix, perspectiveMatrix;
 
-glm::vec3 lightDir = glm::normalize(glm::vec3(1.0f, -0.9f, -1.0f));
+glm::vec3 lightDir = glm::normalize(glm::vec3(15.0f, 0.0f, -1.0f));
+
+glm::vec3 lightDir2 = glm::normalize(glm::vec3(0.0f, 15.0f, -1.0f));
 
 void keyboard(unsigned char key, int x, int y)
 {
@@ -194,6 +196,7 @@ void renderScene()
 	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(5.0f)), textureSun);
 	glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+
 	float zmienna = 0.1f;
 	for (int i = 1; i < 10; i++) {
 
@@ -220,7 +223,6 @@ void init()
 	textureStars = Core::LoadTexture("textures/stars.png"); //stars
 	textureJupiter = Core::LoadTexture("textures/jupiter.png"); //jupiter
 	textureNeptun = Core::LoadTexture("textures/neptune.png"); //neptune
-	//textureShip = Core::LoadTexture("textures/ship.png"); //ship
 	textureChicken = Core::LoadTexture("textures/chicken.png");
 	textureSunOpacity = Core::LoadTexture("textures/sunOpacity.png");
 	textureShip = Core::LoadTexture("textures/spaceShip2.png");
