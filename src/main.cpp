@@ -21,7 +21,7 @@ GLuint textureStars;
 GLuint textureJupiter;
 GLuint textureNeptun;
 GLuint textureShip;
-
+GLuint textureSunOpacity;
 
 
 Core::Shader_Loader shaderLoader;
@@ -104,7 +104,7 @@ void drawObjectTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint IDtextu
 void drawBackgroundTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint IDtexture)
 {
 	GLuint program = programBackground;
-
+	
 	glUseProgram(program);
 
 
@@ -160,13 +160,15 @@ void renderScene()
 
 
 	//Kurczok
-	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 100)) *glm::scale(glm::vec3(0.5f)), textureChicken);
+	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)), textureChicken);\
+
 
 	//Gwiazdy
 	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
 
-	//Slonce
-	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(5.0f)), textureSun);
+
+	
+	//drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(5.4f)), textureSunOpacity);
 
 	//Ziemia
 	glm::mat4 sphereMatrix = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1));
@@ -185,6 +187,19 @@ void renderScene()
 
 	drawObjectTexture(&sphereModel, sphereMatrixNeptun, textureNeptun);
 
+
+	//Slonce
+	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(5.0f)), textureSun);
+	glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	float zmienna = 0.1f;
+	for (int i = 1; i < 10; i++) {
+
+		drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(5.0f + zmienna)), textureSunOpacity);
+		zmienna += 0.1f;
+
+	}
+	glDisable(GL_BLEND);
 
 	glutSwapBuffers();
 }
@@ -205,6 +220,7 @@ void init()
 	textureNeptun = Core::LoadTexture("textures/neptune.png"); //neptune
 	//textureShip = Core::LoadTexture("textures/ship.png"); //ship
 	textureChicken = Core::LoadTexture("textures/chicken.png");
+	textureSunOpacity = Core::LoadTexture("textures/sunOpacity.png");
 
 }
 
