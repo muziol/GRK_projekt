@@ -158,12 +158,11 @@ void renderScene()
 	
 	drawObjectColor(&shipModel, shipModelMatrix, glm::vec3(0.6f));
 
-<<<<<<< HEAD
-	//Gwiazdy
-=======
+
+	//Kurczok
 	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 100)) *glm::scale(glm::vec3(0.5f)), textureChicken);
 
->>>>>>> a1f106886ae3364ff56381078c774025678898ac
+	//Gwiazdy
 	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
 
 	//Slonce
@@ -225,7 +224,7 @@ int main(int argc, char ** argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(200, 200);
-	glutInitWindowSize(600, 600);
+	glutInitWindowSize(800, 800);
 	glutCreateWindow("Projekt GRK Nikodema i Rafala");
 	glewInit();
 
