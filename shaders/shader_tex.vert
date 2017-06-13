@@ -8,12 +8,13 @@ uniform mat4 modelViewProjectionMatrix;
 uniform mat4 modelMatrix;
 
 out vec3 interpNormal;
-
+out vec3 pos;
 out vec2 CoordMap;
 
 void main()
 {
 	CoordMap = vertexTexCoord;
+	pos = vertexPosition;
 	//CoordMap.x *= 5;
 	CoordMap.y *= -1;
 	gl_Position = modelViewProjectionMatrix * vec4(vertexPosition, 1.0);

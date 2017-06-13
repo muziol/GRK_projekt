@@ -4,16 +4,15 @@ uniform vec3 objectColor;
 uniform vec3 lightDir;
 
 in vec3 interpNormal;
-
+in vec3 pos;
 in vec2 CoordMap;
-
 uniform sampler2D samp;
 
 void main()
 {
 	vec3 normal = normalize(interpNormal);
-	float diffuse = max(dot(normal, -lightDir), 0.0);
+	float diffuse = max(dot(normal, abs(normalize(pos))), 0.0);
 	vec4 texC = texture2D(samp, CoordMap);
-	gl_FragColor = texC * diffuse;
+	gl_FragColor = texC;
 }
 	

@@ -38,6 +38,7 @@ glm::mat4 cameraMatrix, perspectiveMatrix;
 
 glm::vec3 lightDir = glm::normalize(glm::vec3(1.0f, -0.9f, -1.0f));
 
+
 void keyboard(unsigned char key, int x, int y)
 {
 	float angleSpeed = 0.2f;
@@ -156,26 +157,40 @@ void renderScene()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
+	glBegin(GL_LINE_LOOP);
+	// This should generate a circle
+	for (GLfloat i = 0; i < 360; i++)
+	{
+		float x = cos(i*3.14 / 180.f) * 0.5; // keep the axes radius same
+		float y = sin(i*3.14 / 180.f) * 0.5;
+		glVertex3f(x, y, 0.0f);
+	}
+
+	glEnd();
+
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 2.0f + glm::vec3(0,-2.0f,0)) * glm::rotate(-cameraAngle + glm::radians(0.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
 	
 	drawObjectTexture(&shipModel, shipModelMatrix, textureShip);
 
 
 	//Kurczok
-	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)), textureChicken);\
+	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)), textureChicken);
 
 
 	//Gwiazdy
 	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
 
 
-	
 	//drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(5.4f)), textureSunOpacity);
+	float planetSizeScale = 0.000005f;
+	float angle1 = time * 3.1419f;
+
 
 	//Ziemia
 	glm::mat4 sphereMatrix = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1));
 	sphereMatrix = sphereMatrix * glm::translate(glm::vec3(15, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(1.0f));
 	drawObjectTexture(&sphereModel, sphereMatrix, textureEarth);
+
 
 	//Jowisz
 	glm::mat4 sphereMatrixJupiter = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1));
@@ -209,6 +224,7 @@ void renderScene()
 void init()
 {
 	glEnable(GL_DEPTH_TEST);
+
 	programColor = shaderLoader.CreateProgram("shaders/shader_color.vert", "shaders/shader_color.frag");
 	programTexture = shaderLoader.CreateProgram("shaders/shader_tex.vert", "shaders/shader_tex.frag");
 	programBackground = shaderLoader.CreateProgram("shaders/shader_tex_background.vert", "shaders/shader_tex_background.frag");
@@ -224,6 +240,7 @@ void init()
 	textureChicken = Core::LoadTexture("textures/chicken.png");
 	textureSunOpacity = Core::LoadTexture("textures/sunOpacity.png");
 	textureShip = Core::LoadTexture("textures/spaceShip2.png");
+
 
 }
 
