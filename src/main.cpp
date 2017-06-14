@@ -170,12 +170,11 @@ void renderScene()
 
 
 	//Kurczok
-
 	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)), textureChicken);
 
 
 
-	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0, 0, 200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)), textureChicken);\
+	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0, 0, 200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)), textureChicken);
 	//Moon's kurczak
 	drawObjectTexture(&egg, glm::translate(glm::vec3(0,0,200)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)), textureEgg);
 	
@@ -194,8 +193,10 @@ void renderScene()
 	drawObjectTexture(&sphereModel, sphereMatrix, textureEarth);
 
 
+
 	//Orbity
 	drawObjectColor(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(1.5f, 0.02f, 1.5f)), glm::vec3(0.0f, 0.0f, 0.7f));
+
 
 	//Jowisz
 	glm::mat4 sphereMatrixJupiter = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(0, 12, 0));
