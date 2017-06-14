@@ -170,10 +170,11 @@ void renderScene()
 
 
 	//Kurczok
-	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)), textureChicken);
-	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0, 0, 200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)), textureChicken);
+	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * scale(glm::vec3(0.5f)), textureChicken);
+
 	//Moon's kurczak
-	drawObjectTexture(&egg, nikofunkcja(), textureChicken);
+	drawObjectTexture(&egg, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * glm::translate(glm::vec3(0, 0, 200)) *  glm::rotate(glm::radians(45.0f * time) , glm::vec3(0, 12, 0)) * scale(glm::vec3(0.1f)), textureEgg);
+	
 	
 	//Gwiazdy
 	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
@@ -185,12 +186,15 @@ void renderScene()
 
 
 	//Ziemia
-	glm::mat4 sphereMatrix = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0));
+	glm::mat4 sphereMatrix = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 10, 0));
 	sphereMatrix = sphereMatrix * glm::translate(glm::vec3(15, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, -1)) * glm::scale(glm::vec3(1.0f));
 	drawObjectTexture(&sphereModel, sphereMatrix, textureEarth);
 
 
-	drawObjectColor(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(1.5f, 0.02f, 1.0f)), glm::vec3(0.0f, 0.0f, 0.7f));
+
+	//Orbity
+	drawObjectColor(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(1.5f, 0.02f, 1.5f)), glm::vec3(0.0f, 0.0f, 0.7f));
+
 
 	//Jowisz
 	glm::mat4 sphereMatrixJupiter = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(0, 12, 0));
