@@ -145,17 +145,29 @@ void renderScene()
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> fb0bb57aeb78b4642503c944df6a8558fa572738
 	//Kurczok
 	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * scale(glm::vec3(0.5f)), textureChicken);
 
 	//Moon's kurczak
 	drawObjectTexture(&egg, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * glm::translate(glm::vec3(0, 0, 200)) *  glm::rotate(glm::radians(45.0f * time) , glm::vec3(0, 12, 0)) * scale(glm::vec3(0.1f)), textureEgg);
+<<<<<<< HEAD
+=======
+	
+>>>>>>> fb0bb57aeb78b4642503c944df6a8558fa572738
 
 	//Ship
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 2.0f + glm::vec3(0.0f,-2.0f,0.0f)) * glm::rotate(-cameraAngle + glm::radians(-12.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.20f)) * glm::translate(glm::vec3(0.0f, 1.0f, 1.0f));
 	
 	drawObjectTexture(&shipModel, shipModelMatrix, textureShip);
+<<<<<<< HEAD
+=======
+
+	
+>>>>>>> fb0bb57aeb78b4642503c944df6a8558fa572738
 	//Gwiazdy
 	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(80.0f)), textureStars);
 
