@@ -24,7 +24,7 @@ GLuint textureNeptun;
 GLuint textureShip;
 GLuint textureSunOpacity;
 GLuint textureEgg;
-
+GLuint textureOrbita;
 
 Core::Shader_Loader shaderLoader;
 
@@ -64,7 +64,6 @@ void keyboard(unsigned char key, int x, int y)
 
 glm::mat4 createCameraMatrix()
 {
-	// Obliczanie kierunku patrzenia kamery (w plaszczyznie x-z) przy uzyciu zmiennej cameraAngle kontrolowanej przez klawisze.
 	cameraDir = glm::vec3(cosf(cameraAngle), 0.0f, sinf(cameraAngle));
 	glm::vec3 up = glm::vec3(0,1,0);
 
@@ -116,10 +115,6 @@ void drawBackgroundTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint IDt
 	
 	glUseProgram(program);
 
-
-
-	//glUniform3f(glGetUniformLocation(program, "objectColor"), IDtexture.x, IDtexture.y, IDtexture.z);
-
 	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix;
 	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
 	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
@@ -133,25 +128,6 @@ void drawBackgroundTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint IDt
 	glUseProgram(0);
 }
 
-void drawObjectProceduralTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint IDtexture) {
-	GLuint program = programTexture;
-
-	glUseProgram(program);
-
-	glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
-
-	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix;
-	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
-	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
-
-
-	Core::SetActiveTexture(IDtexture, "samp", program, 0);
-
-	Core::DrawModel(model);
-
-
-	glUseProgram(0);
-}
 
 
 void renderScene()
@@ -163,27 +139,18 @@ void renderScene()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-
 	//Kurczok
 	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * scale(glm::vec3(0.5f)), textureChicken);
 
 	//Moon's kurczak
 	drawObjectTexture(&egg, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * glm::translate(glm::vec3(0, 0, 200)) *  glm::rotate(glm::radians(45.0f * time) , glm::vec3(0, 12, 0)) * scale(glm::vec3(0.1f)), textureEgg);
-	
 
 	//Ship
-	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 2.0f + glm::vec3(0.0f,-2.0f,0.0f)) * glm::rotate(-cameraAngle + glm::radians(-12.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.20f)) * glm::translate(glm::vec3(0.0f, 1.0f, 1.0f));
-	
+	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 2.0f + glm::vec3(0.0f,-2.0f,0.0f)) * glm::rotate(-cameraAngle + glm::radians(-12.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.20f)) * glm::translate(glm::vec3(0.0f, 1.0f, 1.0f));	
 	drawObjectTexture(&shipModel, shipModelMatrix, textureShip);
 
-	
 	//Gwiazdy
-	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
-
-
-	//drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(5.4f)), textureSunOpacity);
-	float planetSizeScale = 0.000005f;
-	float angle1 = time * 3.1419f;
+	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(90.0f)), textureStars);
 
 
 	//Ziemia
@@ -194,8 +161,11 @@ void renderScene()
 
 
 	//Orbity
-	drawObjectColor(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(0.1f, 0.0005f, 0.1f)) * glm::scale(glm::vec3(10.0f, 0.0f, 10.0f)), glm::vec3(0.0f, 0.0f, 0.7f));
-
+	glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	drawObjectTexture(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(0.1f, 0.0005f, 0.1f)) * glm::scale(glm::vec3(12.5f, 0.0f, 12.5f)), textureOrbita);
+	drawObjectTexture(&circle, glm::translate(glm::vec3(0.0f, 0.0f, 0.0f)) * glm::scale(glm::vec3(0.1f, 0.0005f, 0.1f)) * glm::scale(glm::vec3(29.0f, 0.0f, 29.0f)), textureOrbita);
+	drawObjectTexture(&circle, glm::translate(glm::vec3(0.0f, 0.0f, 0.0f)) * glm::scale(glm::vec3(0.1f, 0.0005f, 0.1f)) * glm::scale(glm::vec3(46.0f, 0.0f, 46.0f)), textureOrbita);
+	glDisable(GL_BLEND);
 
 	//Jowisz
 	glm::mat4 sphereMatrixJupiter = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(0, 12, 0));
@@ -248,6 +218,7 @@ void init()
 	textureSunOpacity = Core::LoadTexture("textures/sunOpacity.png");
 	textureShip = Core::LoadTexture("textures/spaceShip2.png");
 	textureEgg = Core::LoadTexture("textures/egg.png");
+	textureOrbita = Core::LoadTexture("textures/orbita.png");
 
 
 }
