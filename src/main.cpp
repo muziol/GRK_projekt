@@ -24,7 +24,7 @@ GLuint textureNeptun;
 GLuint textureShip;
 GLuint textureSunOpacity;
 GLuint textureEgg;
-
+GLuint textureOrbita;
 
 Core::Shader_Loader shaderLoader;
 
@@ -133,25 +133,6 @@ void drawBackgroundTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint IDt
 	glUseProgram(0);
 }
 
-void drawObjectProceduralTexture(obj::Model * model, glm::mat4 modelMatrix, GLuint IDtexture) {
-	GLuint program = programTexture;
-
-	glUseProgram(program);
-
-	glUniform3f(glGetUniformLocation(program, "lightDir"), lightDir.x, lightDir.y, lightDir.z);
-
-	glm::mat4 transformation = perspectiveMatrix * cameraMatrix * modelMatrix;
-	glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&transformation);
-	glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
-
-
-	Core::SetActiveTexture(IDtexture, "samp", program, 0);
-
-	Core::DrawModel(model);
-
-
-	glUseProgram(0);
-}
 
 
 void renderScene()
@@ -164,61 +145,19 @@ void renderScene()
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 
-	glPushMatrix();
 
-	//Tells the camera where to be and where to look
-	//Format (camera position x,y,z, focal point x,y,z, camera orientation x,y,z)
-	//Remember that by default the camera points toward negative Z
-	gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-
-	glPushMatrix();
-
-	//Set Drawing Color - Will Remain this color until otherwise specified
-	glColor3f(0.2f, 0.3f, 0.5f);  //Some type of blue
-
-							   //Draw Circle
-	glBegin(GL_POLYGON);
-	//Change the 6 to 12 to increase the steps (number of drawn points) for a smoother circle
-	//Note that anything above 24 will have little affect on the circles appearance
-	//Play with the numbers till you find the result you are looking for
-	//Value 1.5 - Draws Triangle
-	//Value 2 - Draws Square
-	//Value 3 - Draws Hexagon
-	//Value 4 - Draws Octagon
-	//Value 5 - Draws Decagon
-	//Notice the correlation between the value and the number of sides
-	//The number of sides is always twice the value given this range
-	for (double i = 0; i < 2 * PI; i += PI / 12) //<-- Change this Value
-		glVertex3f(cos(i) * 15, sin(i) * 15, 0.0);
-	glEnd();
-	//Draw Circle
-
-<<<<<<< HEAD
 	//Kurczok
 	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * scale(glm::vec3(0.5f)), textureChicken);
 
 	//Moon's kurczak
 	drawObjectTexture(&egg, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * glm::translate(glm::vec3(0, 0, 200)) *  glm::rotate(glm::radians(45.0f * time) , glm::vec3(0, 12, 0)) * scale(glm::vec3(0.1f)), textureEgg);
-	
-=======
-	glPopMatrix();
-
-
 
 	//Ship
 	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 2.0f + glm::vec3(0.0f,-2.0f,0.0f)) * glm::rotate(-cameraAngle + glm::radians(-12.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.20f)) * glm::translate(glm::vec3(0.0f, 1.0f, 1.0f));
 	
 	drawObjectTexture(&shipModel, shipModelMatrix, textureShip);
-
->>>>>>> a949e5b26c6be069a2ae843af7edc3f492711a86
-	
 	//Gwiazdy
-	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
-
-
-	//drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(1, 12, -1)) * glm::scale(glm::vec3(5.4f)), textureSunOpacity);
-	float planetSizeScale = 0.000005f;
-	float angle1 = time * 3.1419f;
+	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(80.0f)), textureStars);
 
 
 	//Ziemia
@@ -229,8 +168,11 @@ void renderScene()
 
 
 	//Orbity
-	drawObjectColor(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(0.1f, 0.0005f, 0.1f)) * glm::scale(glm::vec3(10.0f, 0.0f, 10.0f)), glm::vec3(0.0f, 0.0f, 0.7f));
-
+	glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	drawObjectTexture(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(0.1f, 0.0005f, 0.1f)) * glm::scale(glm::vec3(12.5f, 0.0f, 12.5f)), textureOrbita);
+	drawObjectTexture(&circle, glm::translate(glm::vec3(0.0f, 0.0f, 0.0f)) * glm::scale(glm::vec3(0.1f, 0.0005f, 0.1f)) * glm::scale(glm::vec3(29.0f, 0.0f, 29.0f)), textureOrbita);
+	drawObjectTexture(&circle, glm::translate(glm::vec3(0.0f, 0.0f, 0.0f)) * glm::scale(glm::vec3(0.1f, 0.0005f, 0.1f)) * glm::scale(glm::vec3(46.0f, 0.0f, 46.0f)), textureOrbita);
+	glDisable(GL_BLEND);
 
 	//Jowisz
 	glm::mat4 sphereMatrixJupiter = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(0, 12, 0));
@@ -283,6 +225,7 @@ void init()
 	textureSunOpacity = Core::LoadTexture("textures/sunOpacity.png");
 	textureShip = Core::LoadTexture("textures/spaceShip2.png");
 	textureEgg = Core::LoadTexture("textures/egg.png");
+	textureOrbita = Core::LoadTexture("textures/orbita.png");
 
 
 }
