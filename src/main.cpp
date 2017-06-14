@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "Texture.h"
 
+#define PI 3.1415926535897932384626433832795	
 
 GLuint programColor;
 GLuint programTexture;
@@ -163,20 +164,44 @@ void renderScene()
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 
+	glPushMatrix();
 
-	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 2.0f + glm::vec3(0,-2.0f,0)) * glm::rotate(-cameraAngle + glm::radians(0.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.25f));
+	//Tells the camera where to be and where to look
+	//Format (camera position x,y,z, focal point x,y,z, camera orientation x,y,z)
+	//Remember that by default the camera points toward negative Z
+	gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
+	glPushMatrix();
+
+	//Set Drawing Color - Will Remain this color until otherwise specified
+	glColor3f(0.2f, 0.3f, 0.5f);  //Some type of blue
+
+							   //Draw Circle
+	glBegin(GL_POLYGON);
+	//Change the 6 to 12 to increase the steps (number of drawn points) for a smoother circle
+	//Note that anything above 24 will have little affect on the circles appearance
+	//Play with the numbers till you find the result you are looking for
+	//Value 1.5 - Draws Triangle
+	//Value 2 - Draws Square
+	//Value 3 - Draws Hexagon
+	//Value 4 - Draws Octagon
+	//Value 5 - Draws Decagon
+	//Notice the correlation between the value and the number of sides
+	//The number of sides is always twice the value given this range
+	for (double i = 0; i < 2 * PI; i += PI / 12) //<-- Change this Value
+		glVertex3f(cos(i) * 15, sin(i) * 15, 0.0);
+	glEnd();
+	//Draw Circle
+
+	glPopMatrix();
+
+
+
+	//Ship
+	glm::mat4 shipModelMatrix = glm::translate(cameraPos + cameraDir * 2.0f + glm::vec3(0.0f,-2.0f,0.0f)) * glm::rotate(-cameraAngle + glm::radians(-12.0f), glm::vec3(0,1,0)) * glm::scale(glm::vec3(0.20f)) * glm::translate(glm::vec3(0.0f, 1.0f, 1.0f));
 	
 	drawObjectTexture(&shipModel, shipModelMatrix, textureShip);
 
-
-	//Kurczok
-	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)), textureChicken);
-
-
-
-	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0, 0, 200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)), textureChicken);
-	//Moon's kurczak
-	drawObjectTexture(&egg, glm::translate(glm::vec3(0,0,200)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)), textureEgg);
 	
 	//Gwiazdy
 	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
@@ -195,7 +220,7 @@ void renderScene()
 
 
 	//Orbity
-	drawObjectColor(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(1.5f, 0.02f, 1.5f)), glm::vec3(0.0f, 0.0f, 0.7f));
+	drawObjectColor(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(0.1f, 0.0005f, 0.1f)) * glm::scale(glm::vec3(10.0f, 0.0f, 10.0f)), glm::vec3(0.0f, 0.0f, 0.7f));
 
 
 	//Jowisz
