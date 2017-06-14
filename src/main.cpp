@@ -170,16 +170,15 @@ void renderScene()
 
 
 	//Kurczok
-<<<<<<< HEAD
-	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)), textureChicken);
+
+	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0,0,200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)), textureChicken);
 
 
-=======
-	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0, 0, 200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(1, 12, -1)), textureChicken);\
+
+	drawObjectTexture(&chicken, glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)) * scale(glm::vec3(0.5f)) * glm::translate(glm::vec3(0, 0, 200)) *  glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)), textureChicken);\
 	//Moon's kurczak
-	drawObjectTexture(&egg, nikofunkcja(), textureChicken);
+	drawObjectTexture(&egg, glm::translate(glm::vec3(0,0,200)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0)), textureEgg);
 	
->>>>>>> 3d716031dcd6fb66620f0759f5a13234d567924e
 	//Gwiazdy
 	drawBackgroundTexture(&sphereModel, glm::translate(glm::vec3(0, 0, 0)) * glm::scale(glm::vec3(60.0f)), textureStars);
 
@@ -190,12 +189,13 @@ void renderScene()
 
 
 	//Ziemia
-	glm::mat4 sphereMatrix = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, 0));
+	glm::mat4 sphereMatrix = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 10, 0));
 	sphereMatrix = sphereMatrix * glm::translate(glm::vec3(15, 0, 0)) * glm::rotate(glm::radians(45.0f * time), glm::vec3(0, 12, -1)) * glm::scale(glm::vec3(1.0f));
 	drawObjectTexture(&sphereModel, sphereMatrix, textureEarth);
 
 
-	drawObjectColor(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(1.0f, 0.02f, 1.0f)), glm::vec3(0.0f, 0.0f, 0.7f));
+	//Orbity
+	drawObjectColor(&circle, glm::translate(glm::vec3(0.0f,0.0f,0.0f)) * glm::scale(glm::vec3(1.5f, 0.02f, 1.5f)), glm::vec3(0.0f, 0.0f, 0.7f));
 
 	//Jowisz
 	glm::mat4 sphereMatrixJupiter = glm::translate(glm::vec3(0, 0, 0)) * glm::rotate(glm::radians(35.0f * time), glm::vec3(0, 12, 0));
@@ -238,7 +238,7 @@ void init()
 	shipModel = obj::loadModelFromFile("models/spaceShip2.obj");
 	chicken = obj::loadModelFromFile("models/Chicken.obj");
 	circle = obj::loadModelFromFile("models/circle.obj");
-	egg = obj::loadModelFromFile("models/egg.obj");
+	egg = obj::loadModelFromFile("models/Chicken.obj");
 	textureSun = Core::LoadTexture("textures/sun.png"); //sun
 	textureEarth = Core::LoadTexture("textures/earth.png"); //earth
 	textureStars = Core::LoadTexture("textures/stars.png"); //stars
